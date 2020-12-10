@@ -1,4 +1,6 @@
 package heinz;/* Drew Schuster */
+import heinz.helper.DrawHelper;
+
 import java.awt.*;
 import javax.swing.JPanel;
 import java.lang.Math;
@@ -18,14 +20,14 @@ public class Board extends JPanel
   Image pacmanDownImage = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/pacmandown.jpg"));
   Image pacmanLeftImage = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/pacmanleft.jpg"));
   Image pacmanRightImage = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/pacmanright.jpg"));
-  Image ghost10 = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/ghost10.jpg"));
-  Image ghost20 = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/ghost20.jpg"));
-  Image ghost30 = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/ghost30.jpg"));
-  Image ghost40 = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/ghost40.jpg"));
-  Image ghost11 = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/ghost11.jpg"));
-  Image ghost21 = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/ghost21.jpg"));
-  Image ghost31 = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/ghost31.jpg"));
-  Image ghost41 = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/ghost41.jpg"));
+  Image ghostRedRight = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/ghostRedRight.jpg"));
+  Image ghostOrangeRight = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/ghostOrangeRight.jpg"));
+  Image ghostTealRight = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/ghostTealRight.jpg"));
+  Image ghostPinkRight = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/ghostPinkRight.jpg"));
+  Image ghostRedLeft = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/ghostRedLeft.jpg"));
+  Image ghostOrangeLeft = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/ghostOrangeLeft.jpg"));
+  Image ghostTealLeft = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/ghostTealLeft.jpg"));
+  Image ghostPinkLeft = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/ghostPinkLeft.jpg"));
   Image titleScreenImage = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/titleScreen.jpg"));
   Image gameOverImage = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/gameOver.jpg"));
   Image winScreenImage = Toolkit.getDefaultToolkit().getImage(src.main.java.Pacman.class.getResource("img/winScreen.jpg"));
@@ -36,24 +38,23 @@ public class Board extends JPanel
   Image pacmanDownImage = Toolkit.getDefaultToolkit().getImage("img/pacmandown.jpg"); 
   Image pacmanLeftImage = Toolkit.getDefaultToolkit().getImage("img/pacmanleft.jpg"); 
   Image pacmanRightImage = Toolkit.getDefaultToolkit().getImage("img/pacmanright.jpg"); 
-  Image ghost10 = Toolkit.getDefaultToolkit().getImage("img/ghost10.jpg"); 
-  Image ghost20 = Toolkit.getDefaultToolkit().getImage("img/ghost20.jpg"); 
-  Image ghost30 = Toolkit.getDefaultToolkit().getImage("img/ghost30.jpg"); 
-  Image ghost40 = Toolkit.getDefaultToolkit().getImage("img/ghost40.jpg"); 
-  Image ghost11 = Toolkit.getDefaultToolkit().getImage("img/ghost11.jpg"); 
-  Image ghost21 = Toolkit.getDefaultToolkit().getImage("img/ghost21.jpg"); 
-  Image ghost31 = Toolkit.getDefaultToolkit().getImage("img/ghost31.jpg"); 
-  Image ghost41 = Toolkit.getDefaultToolkit().getImage("img/ghost41.jpg"); 
+  Image ghostRedRight = Toolkit.getDefaultToolkit().getImage("img/ghostRedRight.jpg");
+  Image ghostOrangeRight = Toolkit.getDefaultToolkit().getImage("img/ghostOrangeRight.jpg");
+  Image ghostTealRight = Toolkit.getDefaultToolkit().getImage("img/ghostTealRight.jpg");
+  Image ghostPinkRight = Toolkit.getDefaultToolkit().getImage("img/ghostPinkRight.jpg");
+  Image ghostRedLeft = Toolkit.getDefaultToolkit().getImage("img/ghostRedLeft.jpg");
+  Image ghostOrangeLeft = Toolkit.getDefaultToolkit().getImage("img/ghostOrangeLeft.jpg");
+  Image ghostTealLeft = Toolkit.getDefaultToolkit().getImage("img/ghostTealLeft.jpg");
+  Image ghostPinkLeft = Toolkit.getDefaultToolkit().getImage("img/ghostPinkLeft.jpg");
   Image titleScreenImage = Toolkit.getDefaultToolkit().getImage("img/titleScreen.jpg"); 
   Image gameOverImage = Toolkit.getDefaultToolkit().getImage("img/gameOver.jpg"); 
   Image winScreenImage = Toolkit.getDefaultToolkit().getImage("img/winScreen.jpg");
 
   /* Initialize the player and ghosts */
   Player player = new Player(200,300);
-  Ghost ghost1 = new Ghost(180,180);
-  Ghost ghost2 = new Ghost(200,180);
-  Ghost ghost3 = new Ghost(220,180);
-  Ghost ghost4 = new Ghost(220,180);
+  Ghost[] ghosts = {new Ghost(180,180), new Ghost(200,180), new Ghost(220,180),new Ghost(220,180)};
+
+
 
   /* Timer is used for playing sound effects and animations */
   long timer = System.currentTimeMillis();
@@ -88,6 +89,34 @@ public class Board extends JPanel
   boolean overScreen = false;
   boolean demo = false;
   int New;
+
+  public Player getPlayer() {
+    return player;
+  }
+
+  public Ghost[] getGhosts() {
+    return ghosts;
+  }
+
+  public int getNumLives() {
+    return numLives;
+  }
+
+  public boolean[][] getState() {
+    return state;
+  }
+
+  public boolean[][] getPellets() {
+    return pellets;
+  }
+
+  public int getGridSize() {
+    return gridSize;
+  }
+
+  public int getMax() {
+    return max;
+  }
 
   /* Used to call sound effects */
   GameSounds sounds;
@@ -237,7 +266,7 @@ public class Board extends JPanel
   
   /*  This function draws the board.  The pacman board is really complicated and can only feasibly be done
       manually.  Whenever I draw a wall, I call updateMap to invalidate those coordinates.  This way the pacman
-      and ghosts know that they can't traverse this area */ 
+      and ghosts know that they can't traverse this area */
   public void drawBoard(Graphics g)
   {
         g.setColor(Color.BLACK);
@@ -517,13 +546,9 @@ public class Board extends JPanel
     
     /* Drawing optimization */
     g.copyArea(player.x-20,player.y-20,80,80,0,0);
-    g.copyArea(ghost1.x-20,ghost1.y-20,80,80,0,0);
-    g.copyArea(ghost2.x-20,ghost2.y-20,80,80,0,0);
-    g.copyArea(ghost3.x-20,ghost3.y-20,80,80,0,0);
-    g.copyArea(ghost4.x-20,ghost4.y-20,80,80,0,0);
-    
-
-    Ghost[] ghosts = {ghost1, ghost2, ghost3, ghost4};
+    for (Ghost ghost : ghosts) {
+      g.copyArea(ghost.x-20,ghost.y-20,80,80,0,0);
+    }
 
     /* Detect collisions */
     oops = isCollision(player, ghosts);
@@ -549,10 +574,9 @@ public class Board extends JPanel
     /* Delete the players and ghosts */
     g.setColor(Color.BLACK);
     g.fillRect(player.lastX,player.lastY,20,20);
-    g.fillRect(ghost1.lastX,ghost1.lastY,20,20);
-    g.fillRect(ghost2.lastX,ghost2.lastY,20,20);
-    g.fillRect(ghost3.lastX,ghost3.lastY,20,20);
-    g.fillRect(ghost4.lastX,ghost4.lastY,20,20);
+    for (Ghost ghost : ghosts) {
+      g.fillRect(ghost.lastX,ghost.lastY,20,20);
+    }
 
     /* Eat pellets */
     if ( pellets[player.pelletX][player.pelletY] && New!=2 && New !=3)
@@ -611,37 +635,33 @@ public class Board extends JPanel
 
 
     /* Replace pellets that have been run over by ghosts */
-    if ( pellets[ghost1.lastPelletX][ghost1.lastPelletY])
-      fillPellet(ghost1.lastPelletX,ghost1.lastPelletY,g);
-    if ( pellets[ghost2.lastPelletX][ghost2.lastPelletY])
-      fillPellet(ghost2.lastPelletX,ghost2.lastPelletY,g);
-    if ( pellets[ghost3.lastPelletX][ghost3.lastPelletY])
-      fillPellet(ghost3.lastPelletX,ghost3.lastPelletY,g);
-    if ( pellets[ghost4.lastPelletX][ghost4.lastPelletY])
-      fillPellet(ghost4.lastPelletX,ghost4.lastPelletY,g);
+    for (Ghost ghost : ghosts) {
+      if ( pellets[ghost.lastPelletX][ghost.lastPelletY])
+        fillPellet(ghost.lastPelletX,ghost.lastPelletY,g);
+    }
 
 
     /*Draw the ghosts */
-    if (ghost1.frameCount < 5)
+    if (ghosts[0].frameCount < 5)
     {
       /* Draw first frame of ghosts */
-      g.drawImage(ghost10,ghost1.x,ghost1.y,Color.BLACK,null);
-      g.drawImage(ghost20,ghost2.x,ghost2.y,Color.BLACK,null);
-      g.drawImage(ghost30,ghost3.x,ghost3.y,Color.BLACK,null);
-      g.drawImage(ghost40,ghost4.x,ghost4.y,Color.BLACK,null);
-      ghost1.frameCount++;
+      g.drawImage(ghostRedRight,ghosts[0].x,ghosts[0].y,Color.BLACK,null);
+      g.drawImage(ghostOrangeRight,ghosts[1].x,ghosts[1].y,Color.BLACK,null);
+      g.drawImage(ghostTealRight,ghosts[2].x,ghosts[2].y,Color.BLACK,null);
+      g.drawImage(ghostPinkRight,ghosts[3].x,ghosts[3].y,Color.BLACK,null);
+      ghosts[0].frameCount++;
     }
     else
     {
       /* Draw second frame of ghosts */
-      g.drawImage(ghost11,ghost1.x,ghost1.y,Color.BLACK,null);
-      g.drawImage(ghost21,ghost2.x,ghost2.y,Color.BLACK,null);
-      g.drawImage(ghost31,ghost3.x,ghost3.y,Color.BLACK,null);
-      g.drawImage(ghost41,ghost4.x,ghost4.y,Color.BLACK,null);
-      if (ghost1.frameCount >=10)
-        ghost1.frameCount=0;
+      g.drawImage(ghostRedLeft,ghosts[0].x,ghosts[0].y,Color.BLACK,null);
+      g.drawImage(ghostOrangeLeft,ghosts[1].x,ghosts[1].y,Color.BLACK,null);
+      g.drawImage(ghostTealLeft,ghosts[2].x,ghosts[2].y,Color.BLACK,null);
+      g.drawImage(ghostPinkLeft,ghosts[3].x,ghosts[3].y,Color.BLACK,null);
+      if (ghosts[0].frameCount >=10)
+        ghosts[0].frameCount=0;
       else
-        ghost1.frameCount++;
+        ghosts[0].frameCount++;
     }
 
     /* Draw the pacman */
@@ -695,10 +715,10 @@ public class Board extends JPanel
   private void initializeGame(Graphics g) {
     reset();
     player = new Player(200,300);
-    ghost1 = new Ghost(180,180);
-    ghost2 = new Ghost(200,180);
-    ghost3 = new Ghost(220,180);
-    ghost4 = new Ghost(220,180);
+    Ghost[] ghosts = {new Ghost(180,180),
+            new Ghost(200,180),
+            new Ghost(220,180),
+            new Ghost(220,180)};
     currScore = 0;
     drawBoard(g);
     drawPellets(g);
@@ -707,10 +727,9 @@ public class Board extends JPanel
     player.updateState(state);
     /* Don't let the player go in the ghost box*/
     player.state[9][7]=false;
-    ghost1.updateState(state);
-    ghost2.updateState(state);
-    ghost3.updateState(state);
-    ghost4.updateState(state);
+    for (Ghost ghost : ghosts) {
+      ghost.updateState(state);
+    }
 
     /* Draw the top menu bar*/
     g.setColor(Color.YELLOW);

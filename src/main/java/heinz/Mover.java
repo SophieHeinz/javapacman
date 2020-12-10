@@ -1,5 +1,8 @@
 package heinz;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /* Both src.main.java.Player and src.main.java.Ghost inherit src.main.java.Mover.  Has generic functions relevant to both*/
 class Mover
 {
@@ -17,6 +20,20 @@ class Mover
     int max;
     int increment;
 
+    /* Direction mover is heading */
+    char direction;
+
+    /* Last mover location*/
+    int lastX;
+    int lastY;
+
+    /* Current mover location */
+    int x;
+    int y;
+
+    /* The pellet the ghost is on top of */
+    int pelletX,pelletY;
+
     /* Generic constructor */
     public Mover()
     {
@@ -32,6 +49,17 @@ class Mover
             }
         }
     }
+/*
+    public Mover(int x, int y){
+        pelletX = x/gridSize-1;
+        pelletY = y/gridSize-1;
+        this.lastX=x;
+        this.lastY=y;
+        this.x = x;
+        this.y = y;
+    }
+
+ */
 
     /* Updates the state information */
     public void updateState(boolean[][] state)
@@ -55,5 +83,25 @@ class Mover
             return true;
         }
         return false;
+    }
+
+
+    /* Determines if the location is one where the mover has to make a decision*/
+    public boolean isChoiceDest()
+    {
+        if (  x%gridSize==0&& y%gridSize==0 )
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void updatePellet()
+    {
+        if (x%gridSize ==0 && y%gridSize == 0)
+        {
+            pelletX = x/gridSize-1;
+            pelletY = y/gridSize-1;
+        }
     }
 }
