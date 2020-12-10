@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /* Both src.main.java.Player and src.main.java.Ghost inherit src.main.java.Mover.  Has generic functions relevant to both*/
-class Mover
+abstract class Mover
 {
     /* Framecount is used to count animation frames*/
     int frameCount=0;
@@ -104,4 +104,8 @@ class Mover
             pelletY = y/gridSize-1;
         }
     }
+
+    public abstract void move();
+
+    public abstract char newDirection();
 }

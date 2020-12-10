@@ -251,14 +251,4 @@ class Player extends Mover
             frameCount ++;
         }
     }
-
-    /* Update what pellet the pacman is on top of */
-    public void updatePellet()
-    {
-        if (x%gridSize ==0 && y%gridSize == 0)
-        {
-            pelletX = x/gridSize-1;
-            pelletY = y/gridSize-1;
-        }
-    }
 }
